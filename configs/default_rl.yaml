@@ -1,0 +1,141 @@
+# Diffusion RL fine-tuning config (trainer_dm_rl.py)
+
+# Runtime
+gpu:
+  value: 0
+  desc: GPU index
+seed:
+  value: 0
+  desc: Random seed
+save:
+  value: true
+  desc: Save best RL checkpoint
+mixed_precision:
+  value: "fp16"
+  desc: Accelerate mixed precision mode (fp16/bf16/no)
+
+# Data
+split:
+  value: "das"
+  desc: Data split name (RL currently samples from test split)
+radius:
+  value: 4.5
+  desc: Neighborhood radius
+top_k:
+  value: 32
+  desc: KNN edges per node
+num_rbf:
+  value: 32
+  desc: Number of RBF distance features
+num_posenc:
+  value: 32
+  desc: Number of positional encoding features
+max_num_conformers:
+  value: 1
+  desc: Maximum conformers per sequence
+noise_scale:
+  value: 0.1
+  desc: Coordinate noise scale for featurization
+
+# Model (GVPDiff)
+node_in_dim:
+  value: [15, 4]
+  desc: Node input dims (scalar, vector)
+node_h_dim:
+  value: [256, 24]
+  desc: Node hidden dims (scalar, vector)
+edge_in_dim:
+  value: [131, 3]
+  desc: Edge input dims (scalar, vector)
+edge_h_dim:
+  value: [128, 4]
+  desc: Edge hidden dims (scalar, vector)
+num_layers:
+  value: 5
+  desc: Number of GVP encoder/decoder layers
+drop_rate:
+  value: 0.5
+  desc: Dropout rate
+out_dim:
+  value: 4
+  desc: RNA alphabet size
+time_cond:
+  value: true
+  desc: Enable time conditioning
+
+# RL optimization
+epochs:
+  value: 3000
+  desc: RL epochs
+lr:
+  value: 0.00005
+  desc: Learning rate
+clip_range:
+  value: 0.5
+  desc: Policy ratio clipping
+rl_update_epochs:
+  value: 2
+  desc: RL update epochs per outer epoch
+accumulate_steps:
+  value: 60
+  desc: Gradient accumulation steps
+num_chunks:
+  value: 1
+  desc: Number of trajectory chunks per sample update
+max_grad_norm:
+  value: 1.0
+  desc: Gradient clipping norm
+
+# Sampling
+model_path:
+  value: "saved_models/checkpoint.h5"
+  desc: Checkpoint path
+temperature:
+  value: 0.5
+  desc: Sampling temperature
+deterministic:
+  value: false
+  desc: Deterministic DDIM sampling switch
+n_steps:
+  value: 30
+  desc: DDIM steps
+target_samples_per_epoch:
+  value: 60
+  desc: Total rollout samples collected per epoch
+rollouts_per_round:
+  value: 10
+  desc: Rollouts collected per sampling round
+sample_index:
+  value: 20
+  desc: Fixed dataset index used for RL optimization
+
+# Diffusion schedule
+sde_schedule:
+  value: "linear"
+  desc: SDE schedule (linear/cosine)
+continuous_beta_0:
+  value: 0.1
+  desc: SDE beta start
+continuous_beta_1:
+  value: 20.0
+  desc: SDE beta end
+eps:
+  value: 0.001
+  desc: Minimum diffusion time
+
+# Unused candidates (kept for review)
+# device:
+#   value: "gpu"
+#   desc: Not used after xpu/device-branch cleanup
+# model:
+#   value: "Diff"
+#   desc: Not used; trainer_dm_rl.py always builds GVPDiff
+# val_every:
+#   value: 5
+#   desc: Not used in current RL loop
+# dihedral_angle:
+#   value: true
+#   desc: Not used in current GVPDiff
+# drop_struct:
+#   value: -1.0
+#   desc: Not used in current GVPDiff

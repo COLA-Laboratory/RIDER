@@ -1,0 +1,153 @@
+# Diffusion training config (main.py)
+
+# Runtime
+gpu:
+  value: 0
+  desc: GPU index
+seed:
+  value: 0
+  desc: Random seed
+use_wandb:
+  value: false
+  desc: Enable Weights & Biases logging for inference
+save:
+  value: true
+  desc: Save checkpoints
+
+# Data
+split:
+  value: "das"
+  desc: Data split name
+radius:
+  value: 4.5
+  desc: Neighborhood radius
+top_k:
+  value: 32
+  desc: KNN edges per node
+num_rbf:
+  value: 32
+  desc: Number of RBF distance features
+num_posenc:
+  value: 32
+  desc: Number of positional encoding features
+max_num_conformers:
+  value: 1
+  desc: Maximum conformers per sequence
+noise_scale:
+  value: 0.1
+  desc: Coordinate noise scale for train split
+max_nodes_batch:
+  value: 3000
+  desc: Max nodes per batch
+max_nodes_sample:
+  value: 5000
+  desc: Max nodes for a single-sample batch
+num_workers:
+  value: 8
+  desc: Dataloader workers
+
+# Model (GVPDiff)
+node_in_dim:
+  value: [15, 4]
+  desc: Node input dims (scalar, vector)
+node_h_dim:
+  value: [256, 24]
+  desc: Node hidden dims (scalar, vector)
+edge_in_dim:
+  value: [131, 3]
+  desc: Edge input dims (scalar, vector)
+edge_h_dim:
+  value: [128, 4]
+  desc: Edge hidden dims (scalar, vector)
+num_layers:
+  value: 5
+  desc: Number of GVP encoder/decoder layers
+drop_rate:
+  value: 0.5
+  desc: Dropout rate
+out_dim:
+  value: 4
+  desc: RNA alphabet size
+time_cond:
+  value: true
+  desc: Enable time conditioning
+
+# Optimization
+epochs:
+  value: 150
+  desc: Training epochs
+lr:
+  value: 0.0001
+  desc: Learning rate
+val_every:
+  value: 30
+  desc: Validation interval (epochs)
+
+# Checkpoint
+model_path:
+  value: "saved_models/checkpoint.h5"
+  desc: Checkpoint path
+
+# Diffusion
+sde_schedule:
+  value: "linear"
+  desc: SDE schedule (linear/cosine)
+continuous_beta_0:
+  value: 0.1
+  desc: SDE beta start
+continuous_beta_1:
+  value: 20.0
+  desc: SDE beta end
+n_steps:
+  value: 50
+  desc: DDIM steps for sampling
+eps:
+  value: 0.001
+  desc: Minimum diffusion time
+eval_all_test:
+  value: false
+  desc: If true, evaluate all test samples
+sample_repeats:
+  value: 16
+  desc: Number of repeated samplings per sample
+temperature:
+  value: 0.5
+  desc: Sampling temperature (used when deterministic=false)
+deterministic:
+  value: false
+  desc: Deterministic DDIM sampling switch
+test_id:
+  value: 50
+  desc: Evaluate one test sample by index; set -1 to disable
+test_pdb_id:
+  value: ""
+  desc: Evaluate one test sample by pdb id from id_list; empty to disable
+train_id:
+  value: -1
+  desc: Evaluate one train sample by index; set -1 to disable
+train_pdb_id:
+  value: ""
+  desc: Evaluate one train sample by pdb id from id_list; empty to disable
+
+# Unused candidates (kept for review)
+# device:
+#   value: "gpu"
+#   desc: Not used after xpu/device-branch cleanup
+# model:
+#   value: "Diff"
+#   desc: Not used; main.py now always builds GVPDiff
+# label_smoothing:
+#   value: 0.05
+#   desc: Legacy AR/NAR trainer parameter
+# evaluate:
+#   value: false
+#   desc: Legacy evaluation switch removed from main.py
+# n_samples:
+#   value: 16
+#   desc: Legacy evaluator parameter
+# dihedral_angle:
+#   value: true
+#   desc: Not used in current GVPDiff
+# drop_struct:
+#   value: -1.0
+#   desc: Not used in current GVPDiff
