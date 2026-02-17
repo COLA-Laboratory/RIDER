@@ -17,6 +17,17 @@ RIDER is a two-stage framework for RNA tertiary-structure inverse design. It con
 
 ---
 
+## Colab 
+
+An interactive Google Colab notebook is available for running RIDER without local installation:
+
+👉 [Open in Google Colab](https://colab.research.google.com/drive/14VmkPfIpVnV8BH0rT-jBSm7BUOkQPZi9?usp=sharing)
+
+The notebook was kindly developed by **Noah Holzleitner** at TUM. We gratefully acknowledge his contribution.
+
+
+---
+
 ## Installation
 
 ### 1) Create environment and install PyTorch
